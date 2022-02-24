@@ -17,7 +17,7 @@ const appointments = [
     time: "1pm",
     interview: {
       student: "Lydia Miller-Jones",
-      interviewer:{
+      interviewer: {
         id: 3,
         name: "Sylvia Palmer",
         avatar: "https://i.imgur.com/LpaY82x.png",
@@ -33,7 +33,7 @@ const appointments = [
     time: "3pm",
     interview: {
       student: "Archie Andrews",
-      interviewer:{
+      interviewer: {
         id: 4,
         name: "Cohana Roy",
         avatar: "https://i.imgur.com/FK8V841.jpg",
@@ -46,28 +46,41 @@ const appointments = [
   }
 ];
 
+
+
 export default function Application(props) {
-  const [day, setDay] = useState("Monday");
-  const [days,setDays]=useState([])
+
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+  })
+
+  // updates the day state with the new day
+  const setDay = (day) => {
+    setState({ ...state, day });
+  };
+
+  // updates the days state with the new array
+  const setDays = (days) => {
+    setState({ ...state, days });
+  };
 
 
   // useEffect to get days from API
   useEffect(() => {
     axios.get('http://localhost:8001/api/days')
       .then((response) => {
-        console.log(response.data);
         setDays(response.data);
-        // setDays([...response.data]);
       })
   }, [])
 
   const appointmentArray = appointments.map((appointment) => {
-    return <appointment
-    key={appointment.id}
-    {...appointment}
+    return <Appointment
+      key={appointment.id}
+      {...appointment}
     />
   });
-  
+
   return (
     <main className="layout">
       <section className="sidebar">
@@ -79,8 +92,8 @@ export default function Application(props) {
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList
-            days={days}
-            value={day}
+            days={state.days}
+            value={state.day}
             onChange={setDay}
           />
         </nav>
