@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function useApplicationData(initial) {
@@ -25,6 +25,21 @@ export default function useApplicationData(initial) {
     });
   }, []);
 
+
+  const updateSpots = (requestType) => {
+    const index = state.days.findIndex(day => day.name === state.day);
+    const days = state.days;
+
+    if (requestType === "create") {
+      days[index].spots -= 1
+    } else {
+      days[index].spots += 1
+    }
+    return days;
+  }
+
+
+
   // updates the day state with the new day
   const setDay = (day) => {
     setState({ ...state, day });
@@ -48,9 +63,11 @@ export default function useApplicationData(initial) {
         interview,
       })
       .then((res) => {
+        const days = updateSpots("create")
         setState((prev) => ({
           ...prev,
           appointments,
+          days
         }));
       });
   };
@@ -71,9 +88,11 @@ export default function useApplicationData(initial) {
     return axios
       .delete(`http://localhost:8001/api/appointments/${id}`)
       .then((res) => {
+        const days = updateSpots()
         setState((prev) => ({
           ...prev,
           appointments,
+          days
         }));
       });
   };
