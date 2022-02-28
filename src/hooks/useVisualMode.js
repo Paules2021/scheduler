@@ -7,13 +7,11 @@ export default function useVisualMode(initial) {
   const transition = (newMode, replace) => {
     // if we want to go back 2 modes, must pass true to 2nd argument
     if (replace === true) {
-      let copyHistory = [...history];
-      copyHistory.pop();
-      setHistory([...copyHistory, newMode])
+      setHistory(prev => ([...prev.slice(0, -1), newMode]))
       setMode(newMode);
     } else {
     // copy history state and add newMode to the history
-    setHistory([...history, newMode])
+    setHistory(prev => ([...prev, newMode]))
     // set the new mode
     setMode(newMode);
     }
