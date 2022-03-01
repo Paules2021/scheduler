@@ -7,16 +7,16 @@ export function getAppointmentsForDay(state, day) {
       appointmentIdArray = eachDay.appointments;
     }
   }
+
   if (appointmentIdArray.length === 0) {
     return [];
   }
+
   for (const appointment of appointmentIdArray) {
     appointmentArray.push(state.appointments[appointment]);
   }
   return appointmentArray;
 }
-
-
 
 export function getInterview(state, interview) {
   if (interview === null) {
@@ -27,7 +27,7 @@ export function getInterview(state, interview) {
   // get the interviewer info as we now have their id
   const interviewerInfo = state.interviewers[interviewerID];
   // copy all the info and update just the interviewer property
-  return {...interview, interviewer: interviewerInfo}
+  return { ...interview, interviewer: interviewerInfo }
 }
 
 export function getInterviewersForDay(state, day) {
@@ -48,4 +48,4 @@ export function getInterviewersForDay(state, day) {
     interviewerArray.push(state.interviewers[interviewer]);
   }
   return interviewerArray;
-} 
+}
