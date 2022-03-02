@@ -4,17 +4,17 @@ The Interviewer Scheduler is a single page application built with React as part 
 
 ## Demo
 - Main page of the Interview Scheduler!
-![Main page]()
+![Main page](https://github.com/Paules2021/scheduler/blob/c99ab7d691513314ac5ac7a1df511c2382ed4c13/docs/first.png)
 
 - create appointments process.
-![Create Appointment]()
+![Create Appointment](https://github.com/Paules2021/scheduler/blob/c99ab7d691513314ac5ac7a1df511c2382ed4c13/docs/new.png)
 
 - Delete an existing appointment.
-![Delete Confirmation]()
+![Delete Confirmation](https://github.com/Paules2021/scheduler/blob/c99ab7d691513314ac5ac7a1df511c2382ed4c13/docs/delete.png)
 
 
 - Edit an existing appointment.
-![Edit Appointment]()
+![Edit Appointment](https://github.com/Paules2021/scheduler/blob/c99ab7d691513314ac5ac7a1df511c2382ed4c13/docs/edit.png)
 
 
 ## Setup
