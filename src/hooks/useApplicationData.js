@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function useApplicationData(initial) {
@@ -9,12 +9,12 @@ export default function useApplicationData(initial) {
     interviewers: {},
   });
 
-  // useEffect to get days, appointments and interviewers from API 
+  // useEffect to get days, appointments,interviewers from API 
   useEffect(() => {
     Promise.all([
-      axios.get("http://localhost:8001/api/days"),
-      axios.get("http://localhost:8001/api/appointments"),
-      axios.get("http://localhost:8001/api/interviewers"),
+      axios.get("/api/days"),
+      axios.get("/api/appointments"),
+      axios.get("/api/interviewers"),
     ]).then((all) => {
       setState((prev) => ({
         ...prev,
@@ -25,22 +25,36 @@ export default function useApplicationData(initial) {
     });
   }, []);
 
-
-  const updateSpots = (requestType) => {
-    const index = state.days.findIndex(day => day.name === state.day);
-    const days = state.days;
-
-    if (requestType === "create") {
-      days[index].spots -= 1
-    } else {
-      days[index].spots += 1
+  // function update the spots
+  const updateSpots = (state, appointments, id) => {
+    let newAppointments = [];
+    let index = 0;
+    for (const day of state.days) {
+      if (day.appointments.includes(id)) {
+        newAppointments = [...day.appointments];
+        index = day.id - 1;
+      }
     }
-    return days;
-  }
+    let counter = 0;
+    for (const appointment of newAppointments) {
+      if (appointments[appointment].interview === null) {
+        counter++;
+      }
+    }
+    const day = {
+      ...state.days[index],
+      spots: counter
+    }
+    const daysArray = [
+      ...state.days
+    ]
+    daysArray[index] = day
+    return daysArray;
+
+  };
 
 
-
-  // updates the day state with the new day
+  // updates day state with  new day
   const setDay = (day) => {
     setState({ ...state, day });
   };
@@ -63,7 +77,7 @@ export default function useApplicationData(initial) {
         interview,
       })
       .then((res) => {
-        const days = updateSpots("create")
+        const days = updateSpots(state, appointments, id)
         setState((prev) => ({
           ...prev,
           appointments,
@@ -88,7 +102,7 @@ export default function useApplicationData(initial) {
     return axios
       .delete(`http://localhost:8001/api/appointments/${id}`)
       .then((res) => {
-        const days = updateSpots()
+        const days = updateSpots(state, appointments, id)
         setState((prev) => ({
           ...prev,
           appointments,
